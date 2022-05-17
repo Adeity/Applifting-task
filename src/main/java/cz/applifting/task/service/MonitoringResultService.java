@@ -41,7 +41,7 @@ public class MonitoringResultService {
      * @return list of Monitoring Result
      */
     public List<MonitoringResult> getLastNForEachURL(User owner, int limit) {
-        //  Note: there might exist an SQL-query way to do this which I am not aware of
+        //  Note: there might exist a single SQL-query way to do this which I am not aware of
         //  first get all user's MonitoredEndpoints
         List<MonitoredEndpoint> usersMonitoringEndpoints = monitoredEndpointDao.findByOwner(owner);
         //  for each MonitoredEndpoint append top n MonitoredResult

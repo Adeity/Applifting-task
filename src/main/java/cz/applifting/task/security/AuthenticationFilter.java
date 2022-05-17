@@ -22,6 +22,13 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String appliftingAuth = request.getHeader("Applifting-Authorization");
+        if (appliftingAuth == null) {
+            filterChain.doFilter(request, response);
+            return;
+        } else if (appliftingAuth.equals("")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         logger.debug(appliftingAuth);
 

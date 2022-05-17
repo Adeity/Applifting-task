@@ -30,9 +30,39 @@ public class RestExceptionHandler {
         return new ErrorInfo(e.getMessage(), request.getRequestURI());
     }
 
+    /**
+     * Gets thrown when desired object was not found
+     */
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorInfo> cartAccessException(HttpServletRequest request, NotFoundException e) {
+    public ResponseEntity<ErrorInfo> notFoundException(HttpServletRequest request, NotFoundException e) {
         logException(e);
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Gets thrown when user attempts to create MonitoredEndpoint with invalid URL
+     */
+    @ExceptionHandler(BadUrlException.class)
+    public ResponseEntity<ErrorInfo> badUrlException(HttpServletRequest request, BadUrlException e) {
+        logException(e);
+        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Gets thrown when if a command to create MonitoringResult of an inactive MonitoredEndpoint
+     */
+    @ExceptionHandler(MonitoringResultException.class)
+    public ResponseEntity<ErrorInfo> monitoringResultException(HttpServletRequest request, MonitoringResultException e) {
+        logException(e);
+        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Gets thrown when an user wants to create entity with not-null null attributes
+     */
+    @ExceptionHandler(NullParameterException.class)
+    public ResponseEntity<ErrorInfo> nullParameterException(HttpServletRequest request, NullParameterException e) {
+        logException(e);
+        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
     }
 }

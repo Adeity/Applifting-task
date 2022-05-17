@@ -40,8 +40,12 @@ public class MonitoredEndpointService {
         NullParameterException.checkNullThrowNullParameter(dto.getHttpMethodEnum(), "http method");
         NullParameterException.checkNullThrowNullParameter(dto.getUrl(), "url");
         // validate url
-        requestSenderService.validateURL(dto.getUrl());
-        if(requestSenderService.urlIsNotFound(dto.getUrl())) {
+        if (
+
+                requestSenderService.urlIsInvalid(dto.getUrl())
+                        ||
+                        requestSenderService.urlIsNotFound(dto.getUrl())
+        ) {
             throw BadUrlException.create(dto.getUrl());
         }
 
@@ -59,16 +63,18 @@ public class MonitoredEndpointService {
 
     /**
      * Delete/deactivate the endpoint.
-     * @param url - url of endpoint
+     *
+     * @param url   - url of endpoint
      * @param owner - user owner of MonitoredEndpoint
      */
     @Transactional
-    public void deactivateMonitoredEndpoint(String url, User owner) {
+    public MonitoredEndpoint deactivateMonitoredEndpoint(String url, User owner) {
         Optional<MonitoredEndpoint> m = monitoredEndpointDao.findByUrlAndOwner(url, owner);
         if (m.isPresent()) {
             MonitoredEndpoint res = m.get();
             res.setActive(false);
             monitoredEndpointDao.save(res);
+            return res;
         }
         throw NotFoundException.create("MonitoredEndpoint", "url " + url);
     }
@@ -93,7 +99,8 @@ public class MonitoredEndpointService {
 
     /**
      * Find MonitoredEndpoint by its url and owner
-     * @param url - url of MonitoredEndpoint
+     *
+     * @param url   - url of MonitoredEndpoint
      * @param owner - user owner of MonitoredEndpoint
      */
     public MonitoredEndpoint getMonitoredEndpointByUrlAndOwner(String url, User owner) {

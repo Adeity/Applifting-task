@@ -22,7 +22,7 @@ public class RequestSenderService {
      * Validates url using OWASP validation regex
      * @throws BadUrlException if url doesn't match
      */
-    protected void validateURL(String url) {
+    protected boolean urlIsInvalid(String url) {
         String URL_REGEX =
                 "^((((https?|ftps?|gopher|telnet|nntp)://)|(mailto:|news:))" +
                         "(%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)" +
@@ -31,8 +31,9 @@ public class RequestSenderService {
 
         Matcher matcher = URL_PATTERN.matcher(url);
         if (!matcher.matches()) {
-            throw BadUrlException.create(url);
+            return true;
         }
+        return false;
     }
     /**
      * Checks whether URL is found or if http request to URL failed

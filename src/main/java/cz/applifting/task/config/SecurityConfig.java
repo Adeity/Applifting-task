@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .anyRequest().authenticated().and()
+                .anyRequest().authenticated().and().csrf().disable()
                 .addFilterBefore(new AuthenticationFilter(), BasicAuthenticationFilter.class);
 
     }

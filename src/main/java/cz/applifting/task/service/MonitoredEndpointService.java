@@ -3,6 +3,7 @@ package cz.applifting.task.service;
 import cz.applifting.task.dao.MonitoredEndpointDao;
 import cz.applifting.task.dao.UserDao;
 import cz.applifting.task.dto.MonitoredEndpointDto;
+import cz.applifting.task.exceptions.BadUrlException;
 import cz.applifting.task.exceptions.NotFoundException;
 import cz.applifting.task.exceptions.NullParameterException;
 import cz.applifting.task.model.MonitoredEndpoint;
@@ -19,11 +20,13 @@ import java.util.Optional;
 public class MonitoredEndpointService {
     private final UserDao userDao;
     private final MonitoredEndpointDao monitoredEndpointDao;
+    private final RequestSenderService requestSenderService;
 
     @Autowired
-    public MonitoredEndpointService(UserDao userDao, MonitoredEndpointDao monitoredEndpointDao) {
+    public MonitoredEndpointService(UserDao userDao, MonitoredEndpointDao monitoredEndpointDao, RequestSenderService requestSenderService) {
         this.userDao = userDao;
         this.monitoredEndpointDao = monitoredEndpointDao;
+        this.requestSenderService = requestSenderService;
     }
 
     /**
@@ -31,11 +34,16 @@ public class MonitoredEndpointService {
      */
     @Transactional
     public MonitoredEndpoint createMonitoredEndpoint(MonitoredEndpointDto dto, User owner) {
+        // validate not null parameters
         NullParameterException.checkNullThrowNullParameter(dto.getMonitoredInterval(), "monitored interval");
         NullParameterException.checkNullThrowNullParameter(dto.getName(), "name");
         NullParameterException.checkNullThrowNullParameter(dto.getHttpMethodEnum(), "http method");
         NullParameterException.checkNullThrowNullParameter(dto.getUrl(), "url");
-
+        // validate url
+        requestSenderService.validateURL(dto.getUrl());
+        if(requestSenderService.urlIsNotFound(dto.getUrl())) {
+            throw BadUrlException.create(dto.getUrl());
+        }
 
         // create the business object from dto
         MonitoredEndpoint monitoredEndpoint = new MonitoredEndpoint(dto);
@@ -47,6 +55,7 @@ public class MonitoredEndpointService {
         monitoredEndpointDao.save(monitoredEndpoint);
         return monitoredEndpoint;
     }
+
 
     /**
      * Delete/deactivate the endpoint.
@@ -94,4 +103,5 @@ public class MonitoredEndpointService {
         }
         return res.get();
     }
+
 }

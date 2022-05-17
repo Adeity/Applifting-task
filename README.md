@@ -106,7 +106,7 @@ Also before persisting I validate that the url given is a valid one and that it 
 ### Entity Model
 I used the suggested entity model from the original task sheet. I added an "active" flag attribute to MonitoredEndpoint which gets set to false if user wishes to delete that URL.<br>
 Also I added "httpMethod" attribute to better differentiate between endpoints. However I only allow HTTP GET for the sake of this task.
-
+![Entity diagram](images/applifting_task.drawio_new.png)
 ### Notes about DB
 - The values of User were hardcoded using SQL Insert command.
 - Column returnedPayload was altered to be VARCHAR(10000) instead of VARCHAR(255) so I wouldn't receive an error if returned payload was too large.

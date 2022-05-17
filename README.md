@@ -6,7 +6,7 @@ I created a Java Spring Boot application using multi-tier architecture.
 - I simulate periodical monitoring of URLs by sending an HTTP request. I have done this becaue I don't know how to schedule a task based on the "monitored interval" attribute, so I used an extra endpoint as a workaround. Perhaps this way another node in the microservice architecture could be sending those requests to check on registered URLs.
 - I successfully implemented listing of 10 last monitored results for each particular monitored URL
 - Users must authorize themselves by sending their access token in "Applifting-Authorization" HTTP header.
-- Authorization was implemented also. Each user is authorized to view only his/hers MonitoredEndpoints and MonitoredResults.
+- Authorization was also implemented. Each user is authorized to view only his/hers MonitoredEndpoints and MonitoredResults.
 - I have written unit tests using JUnit with Mockito library.
 ### Endpoints
 #### /monitoredEndpoint
@@ -32,7 +32,7 @@ I created a Java Spring Boot application using multi-tier architecture.
     ... and so on
 ```
 - GET /{name} - list MonitoredEndpoint by its name attribute
-- DELETE /delete - delete (actually deactivate) MonitoredEndpoint by URL and user who owns 
+- DELETE /delete - delete (actually deactivate) MonitoredEndpoint by URL and user who owns it.
 - PATCH /edit - edit existintg MonitoredEndpoint
 - POST /create - Create new MonitoredEndpoint. This endpoint has a precondition for url parameter. It must include protocol. So for example "google.com" is not a valid url. POST body may look like this:
 ```
@@ -101,7 +101,7 @@ I created a Java Spring Boot application using multi-tier architecture.
 ```
 ### Validation
 User can create new MonitoredEndpoints so it is crucial that this is the entity for which input must be validated. 
-When user wishes to register new MonitoredEndpoint I validate that the name, monitoredInterval are set.
+When user wishes to register new MonitoredEndpoint I validate that the name, monitoredInterval of input DTO are set.
 Also before persisting I validate that the url given is a valid one and that it doesn't return 404 Not found HTTP status.
 ### Entity Model
 I used the suggested entity model from the original task sheet. I added an "active" flag attribute to MonitoredEndpoint which gets set to false if user wishes to delete that URL.<br>

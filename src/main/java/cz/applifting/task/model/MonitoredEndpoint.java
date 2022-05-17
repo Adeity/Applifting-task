@@ -22,6 +22,7 @@ public class MonitoredEndpoint extends AbstractEntity{
     private User owner;
     @Column(nullable = false)
     private HttpMethodEnum httpMethodEnum;
+    private boolean active = true;
 
     public MonitoredEndpoint() {
     }
@@ -32,6 +33,14 @@ public class MonitoredEndpoint extends AbstractEntity{
         this.setHttpMethodEnum(dto.getHttpMethodEnum());
         this.setMonitoringInterval(dto.getMonitoredInterval());
         this.setDateOfCreation(LocalDateTime.now());
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public String getName() {

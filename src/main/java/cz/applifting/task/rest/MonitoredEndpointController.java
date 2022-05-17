@@ -7,7 +7,6 @@ import cz.applifting.task.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,24 +24,43 @@ public class MonitoredEndpointController {
         this.userService = userService;
     }
 
+    /**
+     * GET Monitored Endpoint
+     */
     @GetMapping(value = "")
-    public String testMapping(){
-        Object o = SecurityContextHolder.getContext().getAuthentication();
-        return "tested";
+    public List<MonitoredEndpoint> getAllMonitoredEndpoints() {
+        return this.service.findAll();
     }
 
+    /**
+     * GET Monitored Endpoint By name
+     */
     @GetMapping(value = "/{name}")
     public List<MonitoredEndpoint> getMonitoredEndpointByName(@PathVariable String name) {
-        return this.service.getByName(name, userService.getAuthenticatedUser());
+        return this.service.getByName(name);
     }
 
+    /**
+     * DELETE Monitored Endpoint
+     */
     @DeleteMapping(value = "/delete")
-    public MonitoredEndpoint getMonitoredEndpointByName(@RequestBody MonitoredEndpointDto dto) {
-        return null;
+    public void getMonitoredEndpointByName(@RequestBody MonitoredEndpointDto dto) {
+        service.deactivateMonitoredEndpoint(dto.getUrl(), userService.getAuthenticatedUser());
     }
 
+    /**
+     * UPDATE Monitored Endpoint
+     */
+    @PatchMapping(value = "/edit", consumes = (MediaType.APPLICATION_JSON_VALUE))
+    public MonitoredEndpoint updateMonitoredEndpoint(@RequestBody MonitoredEndpointDto dto) {
+        return service.createMonitoredEndpoint(dto, userService.getAuthenticatedUser());
+    }
+
+    /**
+     * CREATE Monitored Endpoint
+     */
     @PostMapping(value = "/create", consumes = (MediaType.APPLICATION_JSON_VALUE))
-    public void createMonitoredEndpoint(@RequestBody MonitoredEndpointDto dto) {
-        service.createMonitoredEndpoint(dto, userService.getAuthenticatedUser());
+    public MonitoredEndpoint createMonitoredEndpoint(@RequestBody MonitoredEndpointDto dto) {
+        return service.createMonitoredEndpoint(dto, userService.getAuthenticatedUser());
     }
 }

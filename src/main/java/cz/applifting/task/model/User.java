@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "APPLIFTING_USER")
 public class User extends AbstractEntity{
     @Column(unique = true, nullable = false)
     private String username;

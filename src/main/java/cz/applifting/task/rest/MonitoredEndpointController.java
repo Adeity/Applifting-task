@@ -44,8 +44,8 @@ public class MonitoredEndpointController {
      * DELETE Monitored Endpoint
      */
     @DeleteMapping(value = "/delete")
-    public void getMonitoredEndpointByName(@RequestBody MonitoredEndpointDto dto) {
-        service.deactivateMonitoredEndpoint(dto.getUrl(), userService.getAuthenticatedUser());
+    public MonitoredEndpoint getMonitoredEndpointByName(@RequestBody MonitoredEndpointDto dto) {
+        return service.deactivateMonitoredEndpoint(dto.getUrl(), userService.getAuthenticatedUser());
     }
 
     /**

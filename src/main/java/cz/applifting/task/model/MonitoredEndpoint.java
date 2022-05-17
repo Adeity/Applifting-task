@@ -1,6 +1,8 @@
 package cz.applifting.task.model;
 
 
+import cz.applifting.task.dto.MonitoredEndpointDto;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -22,6 +24,14 @@ public class MonitoredEndpoint extends AbstractEntity{
     private HttpMethodEnum httpMethodEnum;
 
     public MonitoredEndpoint() {
+    }
+
+    public MonitoredEndpoint(MonitoredEndpointDto dto) {
+        this.setUrl(dto.getUrl());
+        this.setName(dto.getName());
+        this.setHttpMethodEnum(dto.getHttpMethodEnum());
+        this.setMonitoringInterval(dto.getMonitoredInterval());
+        this.setDateOfCreation(LocalDateTime.now());
     }
 
     public String getName() {

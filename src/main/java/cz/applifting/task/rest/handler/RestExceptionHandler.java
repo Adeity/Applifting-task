@@ -65,4 +65,13 @@ public class RestExceptionHandler {
         logException(e);
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.BAD_REQUEST);
     }
+
+    /**
+     * Gets thrown when there is no authenticated user
+     */
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorInfo> authenticationException(HttpServletRequest request, AuthenticationException e) {
+        logException(e);
+        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.UNAUTHORIZED);
+    }
 }

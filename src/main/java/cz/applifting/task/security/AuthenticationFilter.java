@@ -1,6 +1,8 @@
 package cz.applifting.task.security;
 
+import cz.applifting.task.exceptions.AuthenticationException;
 import cz.applifting.task.security.model.AuthenticationToken;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,10 +25,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         String appliftingAuth = request.getHeader("Applifting-Authorization");
         if (appliftingAuth == null) {
-            filterChain.doFilter(request, response);
-            return;
-        } else if (appliftingAuth.equals("")) {
-            filterChain.doFilter(request, response);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().write("Missing authorization header");
             return;
         }
 

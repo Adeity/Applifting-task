@@ -5,7 +5,7 @@ I created a Java Spring Boot application using multi-tier architecture.
 - CRUD of Monitored URLs 
 - I simulate periodical monitoring of URLs by sending an HTTP request. I have done this becaue I don't know how to schedule a task based on the "monitored interval" attribute, so I used an extra endpoint as a workaround. Perhaps this way another node in the microservice architecture could be sending those requests to check on registered URLs.
 - I successfully implemented listing of 10 last monitored results for each particular monitored URL
-- Users must authorize themselves by sending their access token in "Applifting-Authorization" HTTP header.
+- Users must authenticate themselves by sending their access token in "Applifting-Authorization" HTTP header.
 - Authorization was also implemented. Each user is authorized to view only his/hers MonitoredEndpoints and MonitoredResults.
 - I have written unit tests using JUnit with Mockito library.
 ### Endpoints

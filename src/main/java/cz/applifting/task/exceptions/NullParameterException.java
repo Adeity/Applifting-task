@@ -1,5 +1,8 @@
 package cz.applifting.task.exceptions;
 
+/**
+ * Indicates that a not null parameter is null in MonitoringEndpointDto
+ */
 public class NullParameterException extends AppliftingException{
     public NullParameterException(String message) {
         super(message);

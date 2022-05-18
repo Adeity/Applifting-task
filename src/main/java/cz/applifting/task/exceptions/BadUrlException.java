@@ -1,7 +1,7 @@
 package cz.applifting.task.exceptions;
 
 /**
- * Indicates that monitoring result could not be retrieved
+ * Indicates that given URL is either not valid or not found
  */
 public class BadUrlException extends AppliftingException{
 

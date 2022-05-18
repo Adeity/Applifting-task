@@ -1,7 +1,7 @@
 package cz.applifting.task.exceptions;
 
 /**
- * Indicates that a resource was not found.
+ * Indicates that there is no authenticated user.
  */
 public class AuthenticationException extends AppliftingException{
 
